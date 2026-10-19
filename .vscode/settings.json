@@ -1,0 +1,24 @@
+{
+    //linter and language server tools settings
+    "verilog.ctags.path": "/opt/homebrew/bin/ctags",
+    "verilog.lint.slang.path": "/opt/homebrew/bin/slang", //ran brew install svlang to get this
+    "verilog.lint.slang.enabled": true,
+    "verilog.lint.verilator.enabled": true,
+    "verilog.includes": [
+        "rtl/include",
+        "tb/include"
+    ],
+
+    //formatter settings
+    "[verilog]": {
+        "editor.defaultFormatter": "FabioOliveira.verigood-verilog-formatter",
+        "editor.formatOnSave": true
+    },
+    "[systemverilog]": {
+        "editor.defaultFormatter": "FabioOliveira.verigood-verilog-formatter",
+        "editor.formatOnSave": true
+    },
+
+    "verilogFormatter.alignAssignments": true,
+    "verilogFormatter.formatModuleHeaders": true
+}
