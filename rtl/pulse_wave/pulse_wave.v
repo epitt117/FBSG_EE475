@@ -21,16 +21,7 @@ module pulse_wave(
         end else begin
             pulse_en_d <= pulse_en;
 
-            if (!pulse_en) begin
-                counter   <= 32'd0;
-                pulse_out <= 1'b0;
-                active    <= 1'b0;
-            end else if (pulse_en && !pulse_en_d) begin //start of a new pulse
-                latch_width <= pulse_width;
-                counter     <= 32'd0;
-                active      <= (pulse_width != 32'd0);
-                pulse_out   <= (pulse_width != 32'd0);
-            end else if (active) begin
+            if (active) begin // active takes priority over pulse_en, so that the pulse is not interrupted mid-way
                 if (counter == latch_width - 32'd1) begin
                     counter   <= 32'd0;
                     pulse_out <= 1'b0;
@@ -39,6 +30,15 @@ module pulse_wave(
                     counter   <= counter + 32'd1;
                     pulse_out <= 1'b1;
                 end
+            end else if (!pulse_en) begin
+                counter   <= 32'd0;
+                pulse_out <= 1'b0;
+                active    <= 1'b0;
+            end else if (!pulse_en_d) begin // occurs with rising edge of pulse_en so pulse triggers for one cycle
+                latch_width <= pulse_width;
+                counter     <= 32'd0;
+                active      <= (pulse_width != 32'd0);
+                pulse_out   <= (pulse_width != 32'd0);
             end
         end
     end
