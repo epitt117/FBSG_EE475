@@ -20,7 +20,7 @@ module square_wave(
 
     pulse_wave pulse_wave_u(
         .clk         (clk        ),
-        .rstn        (resetn     ),
+        .resetn      (resetn     ),
         .pulse_width (pulse_width),
         .pulse_en    (pulse_en   ),
         .pulse_out   (square_out )

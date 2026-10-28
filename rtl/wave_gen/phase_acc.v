@@ -1,5 +1,5 @@
 module phase_acc #(
-    parameter PHASE_WIDTH = 21  // default phase width to 21 as that gives ~0.1Hz resolution with a 150kHz clock
+    parameter integer PHASE_WIDTH = 21  // default phase width to 21 as that gives ~0.1Hz resolution with a 150kHz clock
     )
     (
     input  wire                   clk      ,

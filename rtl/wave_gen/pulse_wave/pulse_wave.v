@@ -1,6 +1,6 @@
 module pulse_wave(
     input  wire        clk        ,
-    input  wire        rstn       ,
+    input  wire        resetn     ,
     input  wire [31:0] pulse_width,
     input  wire        pulse_en   ,
     output reg         pulse_out
@@ -11,8 +11,8 @@ module pulse_wave(
     reg        pulse_en_d ;
     reg        active     ;
 
-    always @(posedge clk or negedge rstn) begin
-        if (!rstn) begin
+    always @(posedge clk or negedge resetn) begin
+        if (!resetn) begin
             counter     <= 32'd0;
             pulse_out   <= 1'b0;
             latch_width <= 32'd0;
@@ -22,7 +22,7 @@ module pulse_wave(
             pulse_en_d <= pulse_en;
 
             if (active) begin // active takes priority over pulse_en, so that the pulse is not interrupted mid-way
-                if (counter == latch_width - 32'd1) begin
+                if (latch_width != 32'd0 && counter == latch_width - 32'd1) begin
                     counter   <= 32'd0;
                     pulse_out <= 1'b0;
                     active    <= 1'b0;
