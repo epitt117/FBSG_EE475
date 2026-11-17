@@ -1,2 +1,4 @@
 **/sim.vvp
 **/*.vcd
+lib/*
+.DS_Store
