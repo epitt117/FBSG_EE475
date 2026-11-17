@@ -1,29 +1,24 @@
+`include "../../../rtl/wave_gen/phase_acc.v"
+
 module sawtooth_wave #(
-    parameter integer PHASE_WIDTH = 21
+    parameter integer PHASE_WIDTH = 21,
+    parameter integer DATA_WIDTH  = 16
     )
     (
-    input  wire        clk         ,
-    input  wire        resetn      ,
-    input  reg  [11:0] step        , // step size per clock cycle
-    output reg  [11:0] sawtooth_out
+    input  wire                   clk         ,
+    input  wire                   resetn      ,
+    input  wire [PHASE_WIDTH-1:0] phase_in    ,
+    output reg                    valid_out   ,
+    output reg   [DATA_WIDTH-1:0] sawtooth_out
     );
-
-    reg [PHASE_WIDTH-1:0] phase;
-    phase_acc #(
-        .PHASE_WIDTH (PHASE_WIDTH)
-        )
-        phase_acc_inst(
-            .clk       (clk   ),
-            .resetn    (resetn),
-            .phase_inc (step  ),
-            .phase_acc (phase )
-            );
 
     always @(posedge clk or negedge resetn) begin
         if (!resetn) begin
-            sawtooth_out <= 12'd0;
+            sawtooth_out <= {DATA_WIDTH{1'b0}};
+            valid_out    <= 1'b0;
         end else begin
-            sawtooth_out <= phase[PHASE_WIDTH-1 -: 12]; // take the top 12 bits of the phase accumulator as the output
+            sawtooth_out <= phase_in[PHASE_WIDTH-1: PHASE_WIDTH-DATA_WIDTH]; // take the top bits of the phase accumulator as the output
+            valid_out    <= 1'b1;
         end
     end
 endmodule

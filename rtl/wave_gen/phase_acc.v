@@ -4,6 +4,7 @@ module phase_acc #(
     (
     input  wire                   clk      ,
     input  wire                   resetn   ,
+    input  wire                   enable   ,
     input  wire [PHASE_WIDTH-1:0] phase_inc,
     output reg  [PHASE_WIDTH-1:0] phase_acc
     );
@@ -15,7 +16,9 @@ module phase_acc #(
         if (!resetn) begin
             phase_acc <= {PHASE_WIDTH{1'b0}};
         end else begin
-            phase_acc <= phase_acc + phase_inc;
+            if (enable) begin // hold phase value if paused
+                phase_acc <= phase_acc + phase_inc;
+            end
         end
     end
 endmodule

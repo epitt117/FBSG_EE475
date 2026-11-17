@@ -16,7 +16,7 @@
     },
     "[systemverilog]": {
         "editor.defaultFormatter": "FabioOliveira.verigood-verilog-formatter",
-        "editor.formatOnSave": true
+        "editor.formatOnSave": false
     },
 
     "verilogFormatter.alignAssignments": true,
